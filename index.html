@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>WWDITS Word Guessing Game</title>
+    <!-- <link rel="stylesheet" type="text/css" media="screen" href="main.css"> -->
+</head>
+
+<body>
+    <h1>
+        Welcome to the What We Do in The Shadows Name Guessing Game!
+    </h1>
+    <h2>
+        Press any key to get started!
+    </h2>
+    <h2 id="wins">
+
+    </h2>
+    <h2 id="losses">
+    </h2>
+
+    <div id="roundWord">
+
+    </div>
+    <div>
+        <div id="guessALetter">
+        </div>
+        <h2 id="letterGuessed">
+        </h2>
+    </div>
+
+    <div id="incorrectGuesses">
+
+    </div>
+    <div id="guessesLeft">
+
+    </div>
+
+    <script>
+
+        var answers = ['Vladislav', 'Viago', 'Deacon', 'Petyr', 'Nick', 'Stu', 'Jackie', 'Anton', 'Katherine', 'Pauline'];
+        var wins = 0;
+        var losses = 0;
+        var remainingGuesses = 10;
+        var allGuessedLetters = [];
+        var incorrectLetters = [];
+
+        document.getElementById("wins").innerHTML = "Wins: " + wins;
+        document.getElementById("losses").innerHTML = "Losses: " + losses;
+
+
+        document.onkeyup = function (event) {
+
+            var roundAnswer = answers[Math.floor(Math.random() * answers.length)];
+            document.getElementById("roundWord").innerHTML = getWordLength(roundAnswer);
+            document.getElementById("guessesLeft").innerHTML = "Guesses Left: " + remainingGuesses;
+            document.getElementById("incorrectGuesses").innerHTML = "Incorrect Letters Guessed: ";
+            document.getElementById("guessALetter").innerHTML = "Guess a Letter";
+
+            document.onkeyup = function (event) {
+                var guessedLetter = event.key;
+                document.getElementById("letterGuessed").innerHTML = guessedLetter;
+                if (allGuessedLetters.includes(guessedLetter)) {
+                    //do nothing
+                }
+                else {
+                    if (roundAnswer.includes(guessedLetter)) {
+                        allGuessedLetters.push(guessedLetter);
+                    }
+                    else {
+                        incorrectLetters.push(guessedLetter);
+                        allGuessedLetters.push(guessedLetter);
+                        document.getElementById("incorrectGuesses").innerHTML = "Incorrect Letters Guessed: " + incorrectLetters;
+                    }
+                    remainingGuesses = remainingGuesses - 1;
+                    document.getElementById("guessesLeft").innerHTML = "Guesses Left: " + remainingGuesses;
+                }
+            }
+        }
+
+        function getWordLength(word) {
+            var length = [];
+            for (var i = 0; i < word.length; i++) {
+                length.push("-");
+                length.join(" ");
+            }
+            return length;
+        }
+
+    </script>
+</body>
+
+</html>
