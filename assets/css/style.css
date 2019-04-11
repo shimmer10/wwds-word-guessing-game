@@ -1,0 +1,15 @@
+body {
+    background: darkslategray;
+    margin-top: 50px;
+}
+img {
+    border: 7px solid black;
+    margin-left: 200px;
+    margin-bottom: 20px;
+}
+.centerText {
+    text-align: center;
+}
+#wins, #losses {
+    font-size: 35px;
+}
