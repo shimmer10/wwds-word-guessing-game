@@ -6,6 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>WWDITS Word Guessing Game</title>
     <!-- <link rel="stylesheet" type="text/css" media="screen" href="main.css"> -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 </head>
 
 <body>
@@ -21,72 +22,140 @@
     <h2 id="losses">
     </h2>
 
-    <div id="roundWord">
+    <div id="round-word">
 
     </div>
     <div>
-        <div id="guessALetter">
+        <div id="guess-a-letter">
         </div>
-        <h2 id="letterGuessed">
+        <h2 id="letter-guessed">
         </h2>
     </div>
 
-    <div id="incorrectGuesses">
+    <div id="incorrect-guesses">
 
     </div>
-    <div id="guessesLeft">
+    <div id="guesses-left">
 
     </div>
 
     <script>
 
+        // document elements
+        var roundWord = $("#round-word");
+        var guessesLeft = $("#guesses-left");
+        var incorrectGuesses = $("#incorrect-guesses");
+        var guessedLetter = $("#guess-a-letter");
+        var letterGuessed = $("#letter-guessed");
+        var winsDiv = $("#wins");
+        var lossesDiv = $("#losses");
+
+        // arrays and variables
         var answers = ['Vladislav', 'Viago', 'Deacon', 'Petyr', 'Nick', 'Stu', 'Jackie', 'Anton', 'Katherine', 'Pauline'];
+        var roundAnswer;
+        var underlines;
         var wins = 0;
         var losses = 0;
         var remainingGuesses = 10;
         var allGuessedLetters = [];
         var incorrectLetters = [];
+        var answerArray = [];
 
-        document.getElementById("wins").innerHTML = "Wins: " + wins;
-        document.getElementById("losses").innerHTML = "Losses: " + losses;
+        // strings
+        var guessALetterText = "Guess a Letter";
+        var winsText = "Wins: ";
+        var lossesText = "Losses: ";
+        var remainingText = "Guesses Left: ";
+        var incorrectLettersText = "Incorrect Letters Guessed: ";
 
+        // setting initial win & loss
+        winsDiv.text(winsText + wins);
+        lossesDiv.text(lossesText + losses);
 
-        document.onkeyup = function (event) {
+        playGame();
 
-            var roundAnswer = answers[Math.floor(Math.random() * answers.length)];
-            document.getElementById("roundWord").innerHTML = getWordLength(roundAnswer);
-            document.getElementById("guessesLeft").innerHTML = "Guesses Left: " + remainingGuesses;
-            document.getElementById("incorrectGuesses").innerHTML = "Incorrect Letters Guessed: ";
-            document.getElementById("guessALetter").innerHTML = "Guess a Letter";
-
+        function playGame() {
+            // start when any key is pressed
             document.onkeyup = function (event) {
-                var guessedLetter = event.key;
-                document.getElementById("letterGuessed").innerHTML = guessedLetter;
-                if (allGuessedLetters.includes(guessedLetter)) {
-                    //do nothing
-                }
-                else {
-                    if (roundAnswer.includes(guessedLetter)) {
-                        allGuessedLetters.push(guessedLetter);
+
+                // get round answer at random
+                roundAnswer = answers[Math.floor(Math.random() * answers.length)];
+
+                hiddenWord = changeAnswerToDashes(roundAnswer);
+                roundAnswer = roundAnswer.toLowerCase();
+
+                console.log(roundAnswer);
+
+                roundWord.text(removeArrayCommas(hiddenWord));
+                guessesLeft.text(remainingText + remainingGuesses);
+                incorrectGuesses.text(incorrectLettersText);
+                guessedLetter.text(guessALetterText);
+
+                document.onkeyup = function (event) {
+                    var guessedLetter = event.key;
+
+                    if (hiddenWord.includes("_")) {
+                        if (remainingGuesses > 0) {
+                            if (guessedLetter.match(/[a-zA-Z]/)) {
+                                letterGuessed.text(guessedLetter);
+                                if (allGuessedLetters.includes(guessedLetter)) {
+                                    //do nothing
+                                }
+                                else {
+                                    if (roundAnswer.includes(guessedLetter)) {
+                                        for (var j = 0; j < roundAnswer.length; j++) {
+                                            if (roundAnswer[j] == guessedLetter) {
+                                                hiddenWord[j] = roundAnswer[j];
+                                            }
+                                        }
+                                        pushToArray(allGuessedLetters, guessedLetter);
+                                        roundWord.text(removeArrayCommas(hiddenWord));
+                                    }
+                                    else {
+                                        pushToArray(incorrectLetters, guessedLetter);
+                                        pushToArray(allGuessedLetters, guessedLetter);
+                                        incorrectGuesses.text(incorrectLettersText + incorrectLetters);
+                                    }
+                                    remainingGuesses = remainingGuesses - 1;
+                                    guessesLeft.text(remainingText + remainingGuesses);
+                                }
+                            }
+                        }
+                        else {
+                            // do losing stuff here
+                        }
                     }
                     else {
-                        incorrectLetters.push(guessedLetter);
-                        allGuessedLetters.push(guessedLetter);
-                        document.getElementById("incorrectGuesses").innerHTML = "Incorrect Letters Guessed: " + incorrectLetters;
+                        // WON
+                        // need to press enter three times to get new game, why???
+                        // tell them to enter any key to play again
+                        console.log("in else")
+                        //create set function
+                        remainingGuesses = 10;
+                        document.onkeyup = function (event) {
+                            playGame();
+                        }
+                        // add functionality to allow them to play again
                     }
-                    remainingGuesses = remainingGuesses - 1;
-                    document.getElementById("guessesLeft").innerHTML = "Guesses Left: " + remainingGuesses;
+
                 }
             }
         }
 
-        function getWordLength(word) {
+        function changeAnswerToDashes(word) {
             var length = [];
             for (var i = 0; i < word.length; i++) {
-                length.push("-");
-                length.join(" ");
+                length.push("_");
             }
             return length;
+        }
+
+        function removeArrayCommas(array) {
+            return array.join(" ");
+        }
+
+        function pushToArray(array, value) {
+            array.push(value);
         }
 
     </script>
