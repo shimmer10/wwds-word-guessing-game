@@ -10,6 +10,9 @@ img {
 .centerText {
     text-align: center;
 }
+.jumbotron {
+    background: gray;
+}
 #wins, #losses {
     font-size: 35px;
 }

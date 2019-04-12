@@ -38,7 +38,7 @@
 
             </div>
         </div>
-        <div class="row">
+        <div class="row jumbotron">
             <h1 class="col-lg-12 centerText" id="round-word">
 
             </h1>
@@ -47,10 +47,11 @@
             </h1>
         </div>
         <div class="row">
-            <div class="col-lg-6 centerText" id="incorrect-guesses">
+            <div class="col-lg-5 centerText jumbotron" id="incorrect-guesses">
 
             </div>
-            <div class="col-lg-6 centerText" id="guesses-left">
+            <div class="col-lg-2"></div>
+            <div class="col-lg-5 centerText jumbotron" id="guesses-left">
 
             </div>
         </div>
@@ -91,6 +92,8 @@
         instructionDiv.text(startGameText);
         winsDiv.text(winsText + wins);
         lossesDiv.text(lossesText + losses);
+        guessesLeftDiv.text(remainingText + remainingGuesses);
+        incorrectGuessesDiv.text(incorrectLettersText);
 
         playGame();
 
@@ -108,20 +111,15 @@
                 console.log(roundAnswer);
 
                 roundWordDiv.text(removeArrayCommas(hiddenWord));
-                guessesLeftDiv.text(remainingText + remainingGuesses);
-                incorrectGuessesDiv.text(incorrectLettersText);
 
                 document.onkeyup = function (event) {
                     var guessedLetter = event.key;
 
-                    if (hiddenWord.includes("_")) {
+                    if (anyDashes(hiddenWord)) {
                         if (remainingGuesses > 0) {
                             if (guessedLetter.match(/[a-zA-Z]/)) {
                                 letterGuessedDiv.text(guessedLetter);
-                                if (allGuessedLetters.includes(guessedLetter)) {
-                                    //do nothing
-                                }
-                                else {
+                                if (!allGuessedLetters.includes(guessedLetter)) {
                                     if (roundAnswer.includes(guessedLetter)) {
                                         for (var j = 0; j < roundAnswer.length; j++) {
                                             if (roundAnswer[j] == guessedLetter) {
@@ -130,6 +128,9 @@
                                         }
                                         pushToArray(allGuessedLetters, guessedLetter);
                                         roundWordDiv.text(removeArrayCommas(hiddenWord));
+                                        if (!anyDashes(hiddenWord)) {
+                                            win();
+                                        }
                                     }
                                     else {
                                         pushToArray(incorrectLetters, guessedLetter);
@@ -146,13 +147,7 @@
                         }
                     }
                     else {
-                        // need to press enter three times to get new game, why???
-                        instructionDiv.text(playerWonText);
-
-                        resetGame();
-                        document.onkeyup = function (event) {
-                            playGame();
-                        }
+                        win();
                     }
                 }
             }
@@ -172,6 +167,21 @@
 
         function pushToArray(array, value) {
             array.push(value);
+        }
+
+        function anyDashes(hiddenWord) {
+            if (hiddenWord.includes("_")) {
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+
+        function win() {
+            instructionDiv.text(playerWonText);
+            resetGame();
+            playGame();
         }
 
         function resetGame() {
