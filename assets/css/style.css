@@ -7,12 +7,29 @@ img {
     margin-left: 200px;
     margin-bottom: 20px;
 }
+.card, #losses, #wins {
+    color: goldenrod;
+    font-family: 'Roboto Slab', serif;
+}
 .centerText {
     text-align: center;
 }
-#wins, #losses {
-    font-size: 35px;
+#instructions {
+    color: peru;
+    font-family: 'Roboto Slab', serif;
 }
-/* #card2 {
-    margin-left: 50px;
-} */
+#losses {
+    float: right;
+    margin-right: 100px;
+}
+#losses, #wins {
+    margin-top: 20px;
+}
+#welcome {
+    font-family: 'Marck Script', cursive;
+    font-weight: bold;
+}
+#wins {
+    float:left;
+    margin-left: 100px;
+}

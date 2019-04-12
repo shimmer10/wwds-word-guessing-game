@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="./assets/css/style.css">
+    <link href="https://fonts.googleapis.com/css?family=Marck+Script|Roboto+Slab" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 </head>
 
@@ -20,7 +21,7 @@
         </div>
         <div class="row">
             <div class="col-lg-12">
-                <h1 class="centerText">
+                <h1 class="centerText" id="welcome">
                     Welcome to the What We Do in The Shadows Name Guessing Game!
                 </h1>
             </div>
@@ -31,33 +32,33 @@
             </h2>
         </div>
         <div class="row">
-            <div class="col-lg-6 centerText" id="wins">
+            <div class="card bg-dark mb-3 col-lg-12 centerText" style="max-width: 40   rem;">
+                <div>
+                    <h2 id="wins">Wins:</h2>
+                    <h2 id="losses">Losses:</h2>
+                </div>
+                <div class="card-body">
+                    <h1 class="col-lg-12 centerText" id="round-word">
 
+                    </h1>
+                    <h1 class="col-lg-12 centerText" id="letter-guessed">
+
+                    </h1>
+                </div>
             </div>
-            <div class="col-lg-6 centerText" id="losses">
-
-            </div>
-        </div>
-        <div class="row text-white bg-dark jumbotron">
-            <h1 class="col-lg-12 centerText" id="round-word">
-
-            </h1>
-            <h1 class="col-lg-12 centerText" id="letter-guessed">
-
-            </h1>
         </div>
         <div class="row">
-            <div class="card text-white bg-dark mb-3 col-lg-5 centerText" id="card1" style="max-width: 40   rem;">
+            <div class="card bg-dark mb-3 col-lg-5 centerText" style="max-width: 40   rem;">
                 <div class="card-header">Incorrect Guesses</div>
                 <div class="card-body">
                     <p class="card-text" id="incorrect-guesses"></p>
                 </div>
             </div>
             <div class="col-lg-2"></div>
-            <div class="card text-white bg-dark mb-3 col-lg-5 centerText" id="card2" style="max-width: 40rem;">
+            <div class="card bg-dark mb-3 col-lg-5 centerText" style="max-width: 40rem;">
                 <div class="card-header">Guesses Remaining</div>
                 <div class="card-body">
-                    <p class="card-text" id="guesses-left"></p>
+                    <p class="card-text" id="guesses-remaining"></p>
                 </div>
             </div>
         </div>
@@ -68,7 +69,7 @@
         // div elements
         var instructionDiv = $("#instructions")
         var roundWordDiv = $("#round-word");
-        var guessesLeftDiv = $("#guesses-left");
+        var guessesRemainingDiv = $("#guesses-remaining");
         var incorrectLettersDiv = $("#incorrect-guesses");
         var letterGuessedDiv = $("#letter-guessed");
         var winsDiv = $("#wins");
@@ -108,13 +109,12 @@
 
                 hiddenWord = changeAnswerToDashes(roundAnswer);
                 roundWordDiv.text(removeArrayCommas(hiddenWord));
-                console.log(roundAnswer);
 
                 document.onkeyup = function (event) {
                     var guessedLetter = event.key;
 
                     // only record if it is a letter
-                    if (guessedLetter.match(/[a-zA-Z]/)) {
+                    if (guessedLetter.match(/[a-zA-Z]+/)) {
                         letterGuessedDiv.text(guessedLetter);
                         // make sure it hasn't been guessed yet
                         if (!allGuessedLetters.includes(guessedLetter)) {
@@ -141,7 +141,7 @@
                                     lost();
                                 }
                             }
-                            guessesLeftDiv.text(remainingGuesses);
+                            guessesRemainingDiv.text(remainingGuesses);
                         }
                     }
                 }
@@ -189,7 +189,7 @@
             instructionDiv.text(startGameText);
             winsDiv.text(winsText + wins);
             lossesDiv.text(lossesText + losses);
-            guessesLeftDiv.text(remainingGuesses);
+            guessesRemainingDiv.text(remainingGuesses);
         }
 
         function resetGame() {
