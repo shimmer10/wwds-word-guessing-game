@@ -17,6 +17,7 @@ img {
 #instructions {
     color: peru;
     font-family: 'Roboto Slab', serif;
+    white-space: pre-line;
 }
 #losses {
     float: right;
