@@ -1,5 +1,5 @@
 body {
-    background: darkslategray;
+    background-image: url(https://d2v9y0dukr6mq2.cloudfront.net/video/thumbnail/EhSddnV/scary-full-moon-and-dark-clouds-at-night-scary-full-moon-in-a-cloudy-night-very-detailed-lunar-surface-with-its-valleys-and-craters-suitable-for-fear-scary-and-terror-scenes-awesome-full-moon-night-of-wolf-halloween-night-nightmare_e1tflehb__F0000.png);
     margin-top: 50px;
 }
 img {
@@ -28,6 +28,7 @@ img {
 #welcome {
     font-family: 'Marck Script', cursive;
     font-weight: bold;
+    color: goldenrod;
 }
 #wins {
     float:left;
