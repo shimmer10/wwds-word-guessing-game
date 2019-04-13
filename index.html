@@ -22,7 +22,7 @@
         <div class="row">
             <div class="col-lg-12">
                 <h1 class="centerText" id="welcome">
-                    Welcome to the What We Do in The Shadows Name Guessing Game!
+                    
                 </h1>
             </div>
         </div>
@@ -67,7 +67,8 @@
     <script>
 
         // div elements
-        var instructionDiv = $("#instructions")
+        var welcomeDiv = $("#welcome");
+        var instructionDiv = $("#instructions");
         var roundWordDiv = $("#round-word");
         var guessesRemainingDiv = $("#guesses-remaining");
         var incorrectLettersDiv = $("#incorrect-guesses");
@@ -86,6 +87,7 @@
         var answerArray = [];
 
         // strings
+        var welcomeText = "Welcome to the What We Do in The Shadows Name Guessing Game!"
         var startGameText = "Press any key to get started!"
         var guessALetterText = "Guess a Letter";
         var winsText = "Wins: ";
@@ -94,7 +96,7 @@
         var playerLostText = "Oh No! You Lost! Press any key to play again!"
 
         // setting initial text
-        setup(startGameText, winsText, wins, lossesText, losses, remainingGuesses);
+        setup(welcomeText, startGameText, winsText, wins, lossesText, losses, remainingGuesses);
         // play the game
         playGame();
 
@@ -185,7 +187,8 @@
             playGame();
         }
 
-        function setup(startGameText, winsText, wins, lossesText, losses, remainingGuesses) {
+        function setup(welcomeText, startGameText, winsText, wins, lossesText, losses, remainingGuesses) {
+            welcomeDiv.text(welcomeText);
             instructionDiv.text(startGameText);
             winsDiv.text(winsText + wins);
             lossesDiv.text(lossesText + losses);
